@@ -1,0 +1,25 @@
+language: java
+jdk:
+  - oraclejdk7
+  - oraclejdk8
+addons:
+  apt:
+    packages:
+      - rpm
+before_deploy:
+  - mvn jdeb:jdeb && export RELEASE_DEB_FILE=$(ls target/*.deb)
+  - mvn rpm:rpm && export RELEASE_RPM_FILE=$(ls target/rpm/qa-plugin/RPMS/noarch/qa-plugin-*.rpm)
+  - export RELEASE_PKG_FILE=$(ls target/qa-plugin-*.jar)
+  - echo "Deploying release to GitHub releases"
+deploy:
+  provider: releases
+  api_key:
+secure: "psU4zwo9NE5LbwIIFPCjtYEkRF67qltACZFgMCOuR+P+MV1DWZ3UwNgtL4KZXhISVskX7pe6aLW2W037ySDPFZTFrdLlmYK7T6FVQxyZd55FdyXo1FwLFBVyr48wfXECAnR1o7X2T9TOMJ8GiNpR0Az+KOgOhv9yDVEYNJicwd9SZl6eiGWXTvXrxDzkAstJub/w98I5RzpiPOrRkhGfTCvY5DGSJXly4oHPwds8UjAIV7+3TI/Cqg2gLzcbkYr7yD0BnuRZ0jt+dTvOjj0DCJaAtKsKk65amevnDfQwLEEhtMp2GdMqSdibdEBNHplmwMut7/vZkldXjuXjaHt2zpX2S7UticmBmEFlZx40EhVbb9lhjdFqH2I39EAioTOnR/QUW7G6nnzvg517w7envGkOR65nuwuXOEKHKaSXOGHgfhiE7KSls7h+D6OQO3NopKqfjk5NEf+S37oaalSf3Rbslo0d2xAfHmIyreTME4XuOt8zgLnWh+wNE6RkJupRZFvC0N6F58hOaUFx9W3Kyy83hBvZDon3kducWR+YJQOmEGuYGrGkEaDxQv8MLIKyKWO5KdtuZ30dHAe05aM5USQEdRRuhVL46pCaTdB4RRXOBJZ7/kmihoGj/Mv6ArSZ3cZqfCHgnRyFPB5wHYsHxYfhZhoBt1A1sxuE/EaAPBU="
+  file: 
+    - "${RELEASE_PKG_FILE}"
+    - "${RELEASE_DEB_FILE}"
+    - "${RELEASE_RPM_FILE}"
+  skip_cleanup: true
+  on:
+    tags: true
+    jdk: oraclejdk7
