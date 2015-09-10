@@ -1,18 +1,37 @@
-# Graylog QAPlugin Plugin
+Internal QA Plugin for Graylog
+==============================
 
-Welcome to your new Graylog plugin!
+[![Build Status](https://travis-ci.org/Graylog2/graylog-plugin-internal-qa.svg)](https://travis-ci.org/Graylog2/graylog-plugin-internal-qa)
 
-Please refer to http://docs.graylog.org/en/latest/pages/plugins.html for documentation on how to write
-plugins for Graylog.
+A plugin that we are using for our internal QA process.
 
+**Required Graylog version:** 1.0 and later
 
-Getting started
----------------
+## Installation
 
-This project is using Maven 3 and requires Java 7 or higher. The plugin will require Graylog 1.0.0 or higher.
+[Download the plugin](https://github.com/Graylog2/graylog-plugin-internal-qa/releases)
+and place the `.jar` file in your Graylog plugin directory. The plugin directory
+is the `plugins/` folder relative from your `graylog-server` directory by default
+and can be configured in your `graylog.conf` file.
 
-* Clone this repository.
-* Run `mvn package` to build a JAR file.
-* Optional: Run `mvn jdeb:jdeb` and `mvn rpm:rpm` to create a DEB and RPM package respectively.
-* Copy generated JAR file in target directory to your Graylog plugin directory.
-* Restart the Graylog.
+Restart `graylog-server` and you are done.
+
+## Build
+
+This project is using Maven and requires Java 7 or higher.
+
+You can build a plugin (JAR) with `mvn package`.
+
+DEB and RPM packages can be build with `mvn jdeb:jdeb` and `mvn rpm:rpm` respectively.
+
+## Plugin Release
+
+We are using the maven release plugin:
+
+```
+$ mvn release:prepare
+[...]
+$ mvn release:perform
+```
+
+This sets the version numbers, creates a tag and pushes to GitHub. TravisCI will build the release artifacts and upload to GitHub automatically.
